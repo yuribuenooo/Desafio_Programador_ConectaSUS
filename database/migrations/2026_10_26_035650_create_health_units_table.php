@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('health_units', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('cidade');
-            table->uuid('uuid')->unique();
+            $table->string('name');
+            $table->string('city');
+            $table->uuid('uuid')->unique();
             $table->timestamps();
         });
     }
