@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react'
+import { IMaskInput } from 'react-imask'
 import './App.css'
 
 const API = '/api'
@@ -117,6 +118,8 @@ function App() {
       const body = {
         ...form,
         health_unit_id: Number(form.health_unit_id),
+        cpf: form.cpf.replace(/\D/g, ''),
+        phone: form.phone.replace(/\D/g, ''),
       }
 
       const result = patientId
@@ -256,12 +259,19 @@ function App() {
           />
 
           <label htmlFor="cpf">CPF</label>
-          <input
+          <IMaskInput
             id="cpf"
             name="cpf"
+            mask="000.000.000-00"
+            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+            title="Informe o CPF no formato 000.000.000-00"
             value={form.cpf}
-            onChange={handleChange}
-            required
+            onAccept={(value) =>
+              setForm((current) => ({ ...current, cpf: value }))
+            }
+           placeholder='000.000.000-00'
+           inputMode="numeric"
+           required
           />
 
           <label htmlFor="birth_date">Data de nascimento</label>
@@ -275,11 +285,19 @@ function App() {
           />
 
           <label htmlFor="phone">Telefone</label>
-          <input
+          <IMaskInput
             id="phone"
             name="phone"
+            mask={[
+              { mask: '(00) 0000-0000'},
+              { mask: '(00) 00000-0000'},
+            ]}
             value={form.phone}
-            onChange={handleChange}
+           onAccept={(value) =>
+              setForm((current) => ({ ...current, phone: value }))
+            }
+            placeholder="(00) 00000-0000"
+            inputMode="tel"
           />
 
           <label htmlFor="health_unit_id">Unidade de saúde</label>
